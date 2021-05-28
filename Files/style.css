@@ -1,0 +1,36 @@
+progress {
+  border: none;
+  width: 300px;
+  height: 25px;
+  margin-bottom: 30px;
+}
+
+progress::-webkit-progress-value {
+  background: red;
+}
+
+progress::-webkit-progress-bar {
+  background: white;
+  border: 1px solid black;
+}
+
+#top-section {
+  display: flex;
+  border: 1px solid black;
+  justify-content: space-around;
+}
+
+.player , .boss {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 20px;
+  align-items: center;
+}
+
+.level {
+  width: 100%;
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-evenly;
+}
