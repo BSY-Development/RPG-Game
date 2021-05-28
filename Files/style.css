@@ -38,3 +38,22 @@ progress::-webkit-progress-bar {
   display: flex;
   justify-content: space-evenly;
 }
+
+/* -------------- Bottom Section -------------- */
+#bottom-section {
+  display: flex;
+  border: 1px solid black;
+}
+
+.attack , .spell , .miracle , .points {
+  border: 1px solid black;
+  width: 25%;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+svg:hover {
+  transform: scale(1.2);
+}
