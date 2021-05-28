@@ -2,7 +2,6 @@ progress {
   border: none;
   width: 300px;
   height: 25px;
-  margin-bottom: 30px;
 }
 
 progress::-webkit-progress-value {
@@ -12,6 +11,10 @@ progress::-webkit-progress-value {
 progress::-webkit-progress-bar {
   background: white;
   border: 1px solid black;
+}
+
+#player-mp::-webkit-progress-value {
+  background: steelblue;
 }
 
 #top-section {
@@ -26,6 +29,7 @@ progress::-webkit-progress-bar {
   border: 1px solid black;
   padding: 20px;
   align-items: center;
+  justify-content: space-around;
 }
 
 .level {
