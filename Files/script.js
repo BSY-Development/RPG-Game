@@ -77,29 +77,36 @@ const bossDead = () => {
   bossHp.value = bossHp.max;
   bossLevel.innerHTML = parseInt(bossLevel.innerHTML) + 1
   pointsDistribute.innerHTML = parseInt(pointsDistribute.innerHTML, 10) + 2;
+  playerMp.value += characterStatus.intelligence + characterStatus.faith;
+  playerHp.value += Math.floor(characterStatus.health / 10);
   unlockButtons();
 }
 
 const bossAttack = () => {
-  playerHp.value -= 5;
+  playerHp.value -= 5 + bossStatus.level + bossStatus.strength;
+  if(playerHp.value <= 0) {
+    alert('Voce perdeu');
+  }
 }
 
 /* Player Actions */
 pHit.addEventListener('click', () => {
-  bossHp.value -= 5;
-  setTimeout(bossAttack, 500);
+  bossHp.value -= 5 + characterStatus.strength;
   if (bossHp.value <= 0) {
     bossDead();
+  } else {
+    setTimeout(bossAttack, 500);
   }
 });
 
 mHit.addEventListener('click', () => {
   if (playerMp.value >= 5) {
-    bossHp.value -= 10;
+    bossHp.value -= 10 + characterStatus.intelligence * 2;
     playerMp.value -= 5;
-    setTimeout(bossAttack, 500);
     if (bossHp.value <= 0) {
       bossDead();
+    } else {
+      setTimeout(bossAttack, 500);
     }
   }
 });
@@ -120,6 +127,9 @@ heal.addEventListener('click', () => {
 increaseHp.addEventListener('click', () => {
   const points = document.querySelector('.points-distribute');
   if (points.innerHTML > 0) {
+    characterStatus.health += 10;
+    playerHp.max += 10;
+    playerHp.value += 10;
     healthValue.innerHTML = parseInt(healthValue.innerHTML, 10) + 10;
     points.innerHTML = parseInt(points.innerHTML, 10) - 1;
     lockButtons(points.innerHTML);
@@ -128,6 +138,7 @@ increaseHp.addEventListener('click', () => {
 increaseStr.addEventListener('click', () => {
   const points = document.querySelector('.points-distribute');
   if (points.innerHTML > 0) {
+    characterStatus.strength += 1;
     strValue.innerHTML = parseInt(strValue.innerHTML, 10) + 1;
     points.innerHTML = parseInt(points.innerHTML, 10) - 1;
     lockButtons(points.innerHTML);
@@ -136,6 +147,7 @@ increaseStr.addEventListener('click', () => {
 increaseInt.addEventListener('click', () => {
   const points = document.querySelector('.points-distribute');
   if (points.innerHTML > 0) {
+    characterStatus.intelligence += 1;
     intValue.innerHTML = parseInt(intValue.innerHTML, 10) + 1;
     points.innerHTML = parseInt(points.innerHTML, 10) - 1;
     lockButtons(points.innerHTML);
@@ -144,6 +156,7 @@ increaseInt.addEventListener('click', () => {
 increaseFaith.addEventListener('click', () => {
   const points = document.querySelector('.points-distribute');
   if (points.innerHTML > 0) {
+    characterStatus.faith += 1;
     faithValue.innerHTML = parseInt(faithValue.innerHTML, 10) + 1;
     points.innerHTML = parseInt(points.innerHTML, 10) - 1;
     lockButtons(points.innerHTML);
