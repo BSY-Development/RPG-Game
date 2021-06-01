@@ -52,12 +52,6 @@ if (localStorage.getItem('character')) {
   if (characterStatus.points > 0) {
     unlockButtons();
   }
-  playerHp.max = characterStatus.health;
-  playerHp.value = parseInt(localStorage.getItem('characterHpNow'), 10);
-  playerMp.max = 90 + characterStatus.intelligence * 10;
-  playerMp.value = parseInt(localStorage.getItem('characterMpNow'), 10)
-  bossHp.max = bossStatus.health;
-  bossHp.value = parseInt(localStorage.getItem('bossHpNow'), 10);
 } else {
   /* Character Status */
   characterStatus = {
@@ -75,16 +69,10 @@ if (localStorage.getItem('character')) {
     health: 50,
     level: 1,
   }
-  playerHp.max = characterStatus.health;
-  playerHp.value = playerHp.max;
-  playerMp.max = 90 + characterStatus.intelligence * 10;
-  playerMp.value = playerMp.max;
-  bossHp.max = bossStatus.health;
-  bossHp.value = bossHp.max;
 }
 
 /* Initial Values */
-const initialValues = () => {
+const initialValues = (dead = undefined) => {
   healthValue.innerHTML = characterStatus.health;
   strValue.innerHTML = characterStatus.strength;
   intValue.innerHTML = characterStatus.intelligence;
@@ -92,6 +80,23 @@ const initialValues = () => {
   pointsDistribute.innerHTML = characterStatus.points;
   playerDeath.innerHTML = characterStatus.deaths;
   bossLevel.innerHTML = bossStatus.level;
+  playerHp.max = characterStatus.health;
+  playerMp.max = 90 + characterStatus.intelligence * 10;
+  bossHp.max = bossStatus.health;
+  if (dead === 'dead') {
+    playerHp.value = playerHp.max;
+    playerMp.value = playerMp.max;
+    bossHp.value = bossHp.max;
+  } else if (localStorage.getItem('characterHpNow')) {
+    playerHp.value = parseInt(localStorage.getItem('characterHpNow'), 10);
+    playerMp.value = parseInt(localStorage.getItem('characterMpNow'), 10)
+    bossHp.value = parseInt(localStorage.getItem('bossHpNow'), 10);
+  } else {
+    playerHp.value = playerHp.max;
+    playerMp.value = playerMp.max;
+    bossHp.value = bossHp.max;
+  }
+  
 }
 
 initialValues();
@@ -120,10 +125,12 @@ const playerDead = () => {
   playerDeath.innerHTML = parseInt(playerDeath.innerHTML, 10) + 1;
   characterStatus.deaths += 1;
   unlockButtons();
-
   bossStatus.health = 50;
   bossStatus.level = 1;
   bossStatus.strength = 1;
+  playerHp.value = playerHp.max;
+  playerMp.value = playerMp.max;
+  bossHp.value = bossHp.max;
 }
 
 const bossAttack = () => {
@@ -131,7 +138,7 @@ const bossAttack = () => {
   if (playerHp.value <= 0) {
     alert('You are dead.');
     playerDead();
-    initialValues();
+    initialValues('dead');
   }
 }
 
