@@ -18,6 +18,7 @@ const intValue = document.querySelector('#int-value');
 const faithValue = document.querySelector('#faith-value');
 /* Level */
 const bossLevel = document.querySelector('.boss-level');
+const playerDeath = document.querySelector('.player-deaths');
 /* Points */
 const pointsDistribute = document.querySelector('.points-distribute');
 
@@ -51,6 +52,7 @@ const initialValues = () => {
 
   bossHp.max = bossStatus.health;
   bossHp.value = bossHp.max;
+  bossLevel.innerHTML = bossStatus.level;
 }
 
 initialValues();
@@ -76,7 +78,7 @@ const bossDead = () => {
   bossStatus.strength += 1;
   bossHp.max = bossStatus.health;
   bossHp.value = bossHp.max;
-  bossLevel.innerHTML = parseInt(bossLevel.innerHTML) + 1
+  bossLevel.innerHTML = parseInt(bossLevel.innerHTML) + 1;
   pointsDistribute.innerHTML = parseInt(pointsDistribute.innerHTML, 10) + 2;
   playerMp.value += characterStatus.intelligence + characterStatus.faith;
   playerHp.value += Math.floor(characterStatus.health / 10);
@@ -89,13 +91,18 @@ const playerDead = () => {
   characterStatus.strength = 1;
   characterStatus.faith = 1;
   characterStatus.intelligence = 1;
+  playerDeath.innerHTML = parseInt(playerDeath.innerHTML, 10) + 1;
   unlockButtons();
+
+  bossStatus.health = 50;
+  bossStatus.level = 1;
+  bossStatus.strength = 1;
 }
 
 const bossAttack = () => {
   playerHp.value -= 5 + bossStatus.level + bossStatus.strength;
   if(playerHp.value <= 0) {
-    alert('Voce perdeu');
+    alert('You are dead.');
     playerDead();
     initialValues();
   }
