@@ -27,6 +27,7 @@ const characterStatus = {
   intelligence: 1,
   faith: 1,
   health: 100,
+  points: 0,
 }
 
 /* BossStatus */
@@ -46,7 +47,7 @@ const initialValues = () => {
   strValue.innerHTML = characterStatus.strength;
   intValue.innerHTML = characterStatus.intelligence;
   faithValue.innerHTML = characterStatus.faith;
-  pointsDistribute.innerHTML = 0;
+  pointsDistribute.innerHTML = characterStatus.points;
 
   bossHp.max = bossStatus.health;
   bossHp.value = bossHp.max;
@@ -82,10 +83,21 @@ const bossDead = () => {
   unlockButtons();
 }
 
+const playerDead = () => {
+  characterStatus.points += 1 + Math.ceil(bossLevel.innerHTML / 10);
+  characterStatus.health = 100;
+  characterStatus.strength = 1;
+  characterStatus.faith = 1;
+  characterStatus.intelligence = 1;
+  unlockButtons();
+}
+
 const bossAttack = () => {
   playerHp.value -= 5 + bossStatus.level + bossStatus.strength;
   if(playerHp.value <= 0) {
     alert('Voce perdeu');
+    playerDead();
+    initialValues();
   }
 }
 
@@ -114,10 +126,10 @@ mHit.addEventListener('click', () => {
 heal.addEventListener('click', () => {
   if (playerHp.value < playerHp.max && playerMp.value >= 5) {
     playerMp.value -= 5;
-    if ((playerHp.value + 6) >= playerHp.max) {
+    if ((playerHp.value + 10 + characterStatus.faith * 3) >= playerHp.max) {
       playerHp.value = playerHp.max;
     } else {
-      playerHp.value += 6;
+      playerHp.value += 10 + characterStatus.faith * 3;
     }
     setTimeout(bossAttack, 500);
   }
@@ -148,6 +160,8 @@ increaseInt.addEventListener('click', () => {
   const points = document.querySelector('.points-distribute');
   if (points.innerHTML > 0) {
     characterStatus.intelligence += 1;
+    playerMp.max += 10;
+    playerMp.value += 10;
     intValue.innerHTML = parseInt(intValue.innerHTML, 10) + 1;
     points.innerHTML = parseInt(points.innerHTML, 10) - 1;
     lockButtons(points.innerHTML);
