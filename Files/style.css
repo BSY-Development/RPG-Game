@@ -57,3 +57,12 @@ progress::-webkit-progress-bar {
 svg:hover {
   transform: scale(1.2);
 }
+
+/* Status */
+.stats-divs p{
+  display: inline-block;
+}
+
+.points-distribute {
+  margin: 0;
+}
