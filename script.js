@@ -184,6 +184,7 @@ increaseHp.addEventListener('click', () => {
     playerHp.max += 10;
     playerHp.value += 10;
     healthValue.innerHTML = parseInt(healthValue.innerHTML, 10) + 10;
+    characterStatus.points -= 1;
     points.innerHTML = parseInt(points.innerHTML, 10) - 1;
     lockButtons(points.innerHTML);
 
